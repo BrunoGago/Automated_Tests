@@ -8,19 +8,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.brunogago.starwarsapi.common.PlanetConstants.PLANET;
+import java.util.Optional;
+
+import static com.brunogago.starwarsapi.common.PlanetConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-//@SpringBootTest(classes = PlanetService.class)//This annotation upload the beans from Spring, but just from the class specified
 @ExtendWith(MockitoExtension.class)//This annotation enable mockito to perform a unit test and not using spring boot to perform a single test
 public class PlanetServiceTest {
 
-    //@Autowired//This annotation should be used just when SpringBootTest is used as well.
     @InjectMocks//instances the class and its dependencies
     private PlanetService planetService;
 
-    //@MockBean//This is a dummy injection in order to perform the test, since there is a dependency on the service class
     @Mock//Unit test of one dependency. The MockBean Annotation it's used to add mocks to a Spring ApplicationContext
     private PlanetRepository planetRepository;
 
@@ -31,7 +32,7 @@ public class PlanetServiceTest {
 
         //ARRANGE: Preparation of the data to perform the tests
         //Mockito will perform a fake action in the mockBean under use to perform the test
-        when(planetRepository.save(PLANET)).thenReturn(PLANET);//STUB: this is a fake "action" from the repository with a fake return. It'll allow the test below to perform
+        when(planetRepository.save(PLANET)).thenReturn(PLANET);
 
         //ACTION: Action to be tested
         //SUT: system under test
@@ -40,4 +41,34 @@ public class PlanetServiceTest {
         //ASSERT: To verify a test by a comparing the return true (if the condition was satisfied) or false
         assertThat(sut).isEqualTo(PLANET);
     }
+
+    @Test
+    public void createPlanet_WithInvalidData_TrowsException(){
+
+        when(planetRepository.save(INVALID_PLANET)).thenThrow(RuntimeException.class);//Normally, RuntimeException occurs when there is an exception related to the DB
+
+        assertThatThrownBy(() -> planetService.create(INVALID_PLANET)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void getPlanet_ByExistingId_ReturnsPlanet(){
+
+        when(planetRepository.findById(anyLong())).thenReturn(Optional.of(PLANET_WITHID));
+
+        Optional<Planet> sut = planetService.get(1L);
+
+        assertThat(sut).isNotEmpty();
+        assertThat(sut.get()).isEqualTo(PLANET_WITHID);
+    }
+
+    @Test
+    public void getPlanet_ByUnexistingId_ReturnsEmpty(){
+
+        when(planetRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        Optional<Planet> sut = planetService.get(5L);
+
+        assertThat(sut).isEmpty();
+    }
+
 }
