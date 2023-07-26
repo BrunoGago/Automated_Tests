@@ -1,10 +1,14 @@
 package com.brunogago.starwarsapi.services;
 
 
+import com.brunogago.starwarsapi.builders.QueryBuilder;
 import com.brunogago.starwarsapi.models.Planet;
 import com.brunogago.starwarsapi.repositories.PlanetRepository;
+import io.micrometer.observation.ObservationFilter;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,4 +28,16 @@ public class PlanetService {
         return planetRepository.findById(id);
     }
 
+    public Optional<Planet> getByName(String name) {
+        return planetRepository.findByName(name);
+    }
+
+    public List<Planet> list(String terrain, String climate) {
+        Example<Planet> query = QueryBuilder.makeQuery(new Planet(climate, terrain));
+        return planetRepository.findAll(query);
+    }
+
+    public void remove(Long id) {
+        planetRepository.deleteById(id);
+    }
 }
