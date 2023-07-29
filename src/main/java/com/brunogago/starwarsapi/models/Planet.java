@@ -1,6 +1,9 @@
 package com.brunogago.starwarsapi.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @Entity
@@ -10,8 +13,14 @@ public class Planet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
+    @NotEmpty
     private String name;
+    @Column(nullable = false)
+    @NotEmpty
     private String climate;
+    @Column(nullable = false)
+    @NotEmpty
     private String terrain;
 
     public Planet() {
@@ -72,4 +81,13 @@ public class Planet {
         return EqualsBuilder.reflectionEquals(o, this);
     }
 
+    @Override
+    public String toString() {
+        return "Planet{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", climate='" + climate + '\'' +
+                ", terrain='" + terrain + '\'' +
+                '}';
+    }
 }
