@@ -3,6 +3,7 @@ package com.brunogago.starwarsapi.controllers;
 
 import com.brunogago.starwarsapi.models.Planet;
 import com.brunogago.starwarsapi.services.PlanetService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class PlanetController {
     private PlanetService planetService;
 
     @PostMapping
-    public ResponseEntity<Planet> create(@RequestBody Planet planet){
+    public ResponseEntity<Planet> create(@RequestBody @Valid Planet planet){
         return ResponseEntity.status(HttpStatus.CREATED).body(planetService.create(planet));
     }
 
