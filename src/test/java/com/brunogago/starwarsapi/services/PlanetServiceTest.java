@@ -1,8 +1,8 @@
 package com.brunogago.starwarsapi.services;
 
-import com.brunogago.starwarsapi.builders.QueryBuilder;
 import com.brunogago.starwarsapi.models.Planet;
 import com.brunogago.starwarsapi.repositories.PlanetRepository;
+import com.brunogago.starwarsapi.builders.QueryBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +20,8 @@ import static com.brunogago.starwarsapi.common.PlanetConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 

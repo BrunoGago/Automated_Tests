@@ -4,7 +4,6 @@ package com.brunogago.starwarsapi.services;
 import com.brunogago.starwarsapi.builders.QueryBuilder;
 import com.brunogago.starwarsapi.models.Planet;
 import com.brunogago.starwarsapi.repositories.PlanetRepository;
-import io.micrometer.observation.ObservationFilter;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
